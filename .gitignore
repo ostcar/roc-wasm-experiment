@@ -1,0 +1,6 @@
+*.o
+*.oo
+*.wasm
+*.so
+*.bc
+zig-cache

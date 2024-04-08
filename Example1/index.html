@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wasm experiment</title>
+  <link rel="icon" href="data:,">
+</head>
+
+<body>
+
+  <div id="element"></div>
+
+ <script src="./main.js"></script>
+  <script>
+    load_wasm("./main.wasm").then(function (fn) {
+        const result = fn(5, 9);
+        document.querySelector("#element").textContent = result;
+    });
+  </script>
+
+</body>
+
+</html>
