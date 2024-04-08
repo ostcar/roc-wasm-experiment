@@ -1,4 +1,4 @@
-// A very simple allocator, that never frees
+// A very simple arena allocator. Set "last_alloc" to 0 to reset the arena.
 let last_alloc = 0;
 function alloc(size) {
   const ptr = last_alloc;
@@ -31,7 +31,6 @@ function read_roc_str(memory, ptr) {
   const str = (new TextDecoder).decode(data);
   return str;
 }
-
 
 async function load_wasm(wasm_file) {
   let wasm;
