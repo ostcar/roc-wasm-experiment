@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
@@ -11,16 +10,18 @@
 
 <body>
 
+  <button id="button">Calculate 5 + 9</button>
   <div id="element"></div>
 
  <script src="./main.js"></script>
   <script>
-    load_wasm("./main.wasm").then(function (fn) {
-        const result = fn(5, 9);
-        document.querySelector("#element").textContent = result;
+    load_wasm("./main.wasm").then((add) => {
+        document.querySelector("#button").onclick = () => {
+          const result = add(5, 9);
+          document.querySelector("#element").textContent = result;
+        }
     });
   </script>
 
 </body>
-
 </html>

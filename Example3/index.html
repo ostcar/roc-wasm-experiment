@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
@@ -10,17 +9,18 @@
 </head>
 
 <body>
-
+  <button id="button">Call Tasks (look at console)</button>
   <div id="element"></div>
 
  <script src="./main.js"></script>
   <script>
     load_wasm("./main.wasm").then(function (fn) {
-        const result = fn("javascript loves roc");
+      document.querySelector("#button").onclick = () => {
+        const result = fn();
         document.querySelector("#element").textContent = result;
+      }
     });
   </script>
 
 </body>
-
 </html>

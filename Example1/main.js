@@ -2,6 +2,7 @@ async function load_wasm(wasm_file) {
   let wasm;
 
   const importObj = {
+    // wasi_snapshot_preview1 would not be necessary, if roc would cal "zig build-lib" instead of "zig build-exe"
     wasi_snapshot_preview1: {
       proc_exit: (code) => {
         if (code !== 0) {
@@ -26,15 +27,5 @@ async function load_wasm(wasm_file) {
   };
 
   wasm = await WebAssembly.instantiateStreaming(fetch(wasm_file), importObj);
-  const memory = wasm.instance.exports.memory;
-  const roc = wasm.instance.exports.roc__mainforPlatform_1_exposed;
-
-  return function (a, b) {
-    try {
-      return roc(a, b);
-
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  return wasm.instance.exports.roc__mainforPlatform_1_exposed;;
 }

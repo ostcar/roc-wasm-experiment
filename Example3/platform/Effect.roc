@@ -4,13 +4,11 @@ hosted Effect
         after,
         map,
         always,
-        forever,
-        loop,
         consoleLog,
         getTime,
     ]
     imports []
-    generates Effect with [after, map, always, forever, loop]
+    generates Effect with [after, map, always]
 
 consoleLog : Str -> Effect {}
 getTime : Effect Str
