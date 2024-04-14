@@ -1,6 +1,6 @@
 app "wasm"
     packages {
-        pf: "platform/main.roc",
+        pf: "platform.roc",
     }
     imports [
         pf.Task.{ Task, consoleLog, getTime },
@@ -9,4 +9,5 @@ app "wasm"
 
 main =
     time <- getTime |> Task.await
-    consoleLog time
+    _ <- consoleLog time |> Task.await
+    Task.ok {}

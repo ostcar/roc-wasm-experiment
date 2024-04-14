@@ -1,5 +1,5 @@
 platform "platform"
-    requires {} { main : Task {} Str }
+    requires {} { main : Task {} * }
     exposes []
     packages {}
     imports [
@@ -7,5 +7,5 @@ platform "platform"
     ]
     provides [mainforPlatform]
 
-mainforPlatform : Task {} Str
+mainforPlatform : Task {} *
 mainforPlatform = main

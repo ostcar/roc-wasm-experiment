@@ -2,6 +2,7 @@ interface Task
     exposes [
         Task,
         await,
+        ok,
         consoleLog,
         getTime,
     ]
@@ -10,6 +11,9 @@ interface Task
     ]
 
 Task ok err := Effect (Result ok err)
+
+ok : a -> Task a *
+ok = \a -> @Task (Effect.always (Ok a))
 
 err : a -> Task * a
 err = \a -> @Task (Effect.always (Err a))

@@ -33,25 +33,7 @@ function read_roc_str(memory, ptr) {
 }
 
 async function load_wasm(wasm_file) {
-  let wasm;
-
   const importObj = {
-    wasi_snapshot_preview1: {
-      proc_exit: (code) => {
-        if (code !== 0) {
-          console.error(`Exited with code ${code}`);
-        }
-      },
-      fd_write: (x) => {
-        console.error(`fd_write not supported: ${x}`);
-      },
-      random_get: (bufPtr, bufLen) => {
-        const wasmMemoryBuffer = new Uint8Array(wasm.instance.exports.memory.buffer);
-        const buf = wasmMemoryBuffer.subarray(bufPtr, bufPtr + bufLen);
-        crypto.getRandomValues(buf);
-        return 0;
-      },
-    },
     env: {
       roc_panic: (_pointer, _tag_id) => {
         throw "Roc panicked!";
@@ -65,17 +47,17 @@ async function load_wasm(wasm_file) {
       roc_dealloc: (ptr, alignment) => {
         // Do nothing
       },
-      consoleLog: (ptr) => {
+      roc_fx_consoleLog: (ptr) => {
         console.log(read_roc_str(memory.buffer, ptr));
       },
-      getTime: (ptr) => {
+      roc_fx_getTime: (ptr) => {
         const str = new Date().toString();
         write_roc_str(str, memory.buffer, ptr);
       },
     },
   };
 
-  wasm = await WebAssembly.instantiateStreaming(fetch(wasm_file), importObj);
+  const wasm = await WebAssembly.instantiateStreaming(fetch(wasm_file), importObj);
   const memory = wasm.instance.exports.memory;
   const roc = wasm.instance.exports.roc__mainforPlatform_1_exposed_generic;
   const call_closure = wasm.instance.exports.roc__mainforPlatform_0_caller;
@@ -92,7 +74,7 @@ async function load_wasm(wasm_file) {
       const result_ptr = alloc(Number(getCallbackResultSize()));
 
       call_closure(0, callback_ptr, result_ptr);
-      return read_roc_str(memory.buffer, result_ptr);
+      return "success (look at the console)"
 
     } catch (e) {
       console.error(e);

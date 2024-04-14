@@ -1,6 +1,6 @@
 app "wasm"
     packages {
-        pf: "platform/main.roc",
+        pf: "platform.roc",
     }
     imports []
     provides [main] to pf

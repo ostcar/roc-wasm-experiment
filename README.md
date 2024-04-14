@@ -8,7 +8,8 @@ build the Wasm module and start a webserver. For example:
 
 ```bash
 cd Example1
-roc build --target=wasm32
+roc build --target=wasm32 --no-link --output /tmp/main.o
+wasm-ld /tmp/main.o -o main.wasm --no-entry --export-dynamic --strip-all --import-undefined
 python -m http.server 8050
 ```
 
