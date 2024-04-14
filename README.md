@@ -21,31 +21,6 @@ To access it, open your webbrowser on http://localhost:8050/
 This example builds a simple `add`-function, that adds two numbers and returns
 the result.
 
-As you can see, the platform is very simple. `platform/main.roc` basicly does
-nothing. It just calls the main-function. The file `platform/host.zig` is even
-simpler. It only contains a `main` function, that is never called.
-
-
-**Question 1:** Is the platform really necessary? Would it be possible for an Roc
-app to be compiled to a Wasm module without any platform?
-
-There could be a special syntax, that tells Roc, not to use any platform:
-
-```roc
-app "wasm"
-    packages {
-        pf: "wasm",
-    }
-    imports []
-    provides [main] to pf
-```
-
-This would it make very easy, to build Wasm modules with Roc.
-
-
-**Question 2:** Would it be possible for Roc to detect, that it build a
-Wasm module and sets the `--target` to `wasm32` as default?
-
 
 # Example 2 - Strings And Allocations
 
@@ -71,12 +46,3 @@ demonstrates, that a platform is not necessary for memory management.
 
 This example demonstrates, how to use Effects/Task. Javascript exports the
 functions `getTime` and `consoleLog`. Roc calls this using its Task system.
-
-For this to work, the Effects had to be defined in a `hosted` roc module inside
-the platform.
-
-**Question 3:** Would it be possible for an Wasm roc app, that has no platform,
-to define effects? Maybe after `Task` will be a builtin?
-
-It was currently also necessary, to define the effects in the `host.zig`-file.
-This does not seem necessary. Is this a bug?
